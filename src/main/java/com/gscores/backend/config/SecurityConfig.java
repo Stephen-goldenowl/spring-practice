@@ -15,7 +15,7 @@ public class SecurityConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-        corsConfiguration.setAllowedOrigins(List.of("https://g-scores-frontend.vercel.app/")); // Replace with your frontend URL
+        corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000")); // Replace with your frontend URL
         corsConfiguration.setAllowedHeaders(List.of("*"));
         corsConfiguration.setAllowedMethods(List.of("*"));
         corsConfiguration.addExposedHeader("Authorization");
