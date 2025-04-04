@@ -65,13 +65,13 @@ CREATE DATABASE thpt2024;
 
 ### 6️⃣ Restart backend container
 ```sh
-docker restart g-scores-api
+docker restart g-scores-backend
 ```
 ### ⏳Seeding data
 There are over 1 million data rows. 
 Run this command and wait until the process is finished:
 ```sh
-docker logs -f g-scores-api
+docker logs -f g-scores-backend
 ``` 
 
 
