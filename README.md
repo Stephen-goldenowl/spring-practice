@@ -21,31 +21,15 @@ git clone https://github.com/giabao0301/gscores-backend
 ### 3️⃣ Create .env file 
 For **local development**, create a `.env` file in the root directory with the following:
 ```bash
-# Environment variables for local development
-
-# PostgreSQL Database Configuration (for the container)
-POSTGRES_USER=<YOUR_POSTGRES_USER>
-POSTGRES_PASSWORD=<YOUR_POSTGRES_PASSWORD>
+POSTGRES_USER=user
+POSTGRES_PASSWORD=password
+POSTGRES_URL=jdbc:postgresql://postgres:5432/thpt2024
 POSTGRES_DB=thpt2024
 
-# pgAdmin Configuration
-PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
+PGADMIN_DEFAULT_EMAIL=admin@example.com
 PGADMIN_DEFAULT_PASSWORD=admin
-  
-# Database Connection Settings (for the application)
-DB_HOST=postgres # Matches the service name in docker-compose
-DB_PORT=5432
-DB_USER=${POSTGRES_USER} # Reuse the same credentials as PostgreSQL
-DB_PASSWORD=${POSTGRES_PASSWORD}
-DB_NAME=thpt2024
 
-# Backend Configuration
-API_PORT=8080
-CORS_ORIGIN=http://localhost:3000
-NODE_ENV=development
-
-# Frontend Configuration
-NEXT_PUBLIC_API_URL=http://localhost:8080
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8080/api/v1
 ```
 
 ### 4️⃣ Run docker-compose.yml
@@ -65,13 +49,13 @@ CREATE DATABASE thpt2024;
 
 ### 6️⃣ Restart backend container
 ```sh
-docker restart g-scores-api
+docker restart g-scores-backend
 ```
 ### ⏳Seeding data
 There are over 1 million data rows. 
 Run this command and wait until the process is finished:
 ```sh
-docker logs -f g-scores-api
+docker logs -f g-scores-backend
 ``` 
 
 
