@@ -1,6 +1,5 @@
 package com.gscores.backend.service.impl;
 
-import com.gscores.backend.dto.mapper.ResultDTOMapper;
 import com.gscores.backend.dto.mapper.StudentDTOMapper;
 import com.gscores.backend.dto.model.ResultDTO;
 import com.gscores.backend.dto.model.StudentDTO;
@@ -14,9 +13,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,9 +31,17 @@ public class StudentServiceImpl implements StudentService {
         private final StudentRepository studentRepository;
         private final ResultRepository resultRepository;
         private final StudentDTOMapper studentDTOMapper;
+        private final RedisTemplate<String, Object> redisTemplate;
 
         @Override
         public StudentDTO getStudentByRegistrationNumber(String registrationNumber) {
+                String key = "student::" + registrationNumber;
+
+                StudentDTO cached = (StudentDTO) redisTemplate.opsForValue().get(key);
+                if (cached != null) {
+                        return cached;
+                }
+
                 StudentDTO studentDTO = studentDTOMapper
                                 .mapToDTO(studentRepository.findByRegistrationNumber(registrationNumber)
                                                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -46,6 +55,8 @@ public class StudentServiceImpl implements StudentService {
                                 .collect(Collectors.toSet());
 
                 studentDTO.setResults(resultDTO);
+
+                redisTemplate.opsForValue().set(key, studentDTO, Duration.ofMinutes(10));
 
                 return studentDTO;
         }
@@ -107,6 +118,10 @@ public class StudentServiceImpl implements StudentService {
                 updatedStudent.setRegistrationNumber(registrationNumber); // Ensure registration number doesn't change
 
                 Student savedStudent = studentRepository.save(updatedStudent);
+
+                String key = "student::" + updatedStudent.getRegistrationNumber();
+                redisTemplate.delete(key);
+
                 return studentDTOMapper.mapToDTO(savedStudent);
         }
 
@@ -118,5 +133,7 @@ public class StudentServiceImpl implements StudentService {
                                                 "Student with registration number [%s] not found"
                                                                 .formatted(registrationNumber)));
                 studentRepository.delete(student);
+                String key = "student::" + registrationNumber;
+                redisTemplate.delete(key);
         }
 }

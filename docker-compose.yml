@@ -36,11 +36,21 @@ services:
     networks:
       - postgres
     restart: unless-stopped
+  
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - spring
 
 networks:
   postgres:
     driver: bridge
-
+  spring:
+    driver: bridge
+    
 volumes:
   postgres:
   pgadmin:

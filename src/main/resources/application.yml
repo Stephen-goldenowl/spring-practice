@@ -24,6 +24,9 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: true
+redis:
+  host: localhost
+  port: 6379
 springdoc:
   api-docs:
     path: /api-docs
