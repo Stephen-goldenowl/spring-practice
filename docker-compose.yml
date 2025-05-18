@@ -2,7 +2,7 @@ services:
   postgres:
     container_name: postgres
     image: postgres:14.1
-    env_file: .env.dev
+    env_file: .env
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -24,7 +24,7 @@ services:
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4
-    env_file: .env.dev
+    env_file: .env
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
@@ -36,33 +36,6 @@ services:
     networks:
       - postgres
     restart: unless-stopped
-
-  backend:
-    container_name: g-scores-backend
-    image: giabao144/g-scores-backend:latest
-    env_file: .env.dev
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
-      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
-      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
-    ports:
-      - "8080:8080"
-    depends_on:
-      postgres:
-        condition: service_healthy
-    networks:
-      - postgres
-
-  frontend:
-    container_name: g-scores-frontend
-    image: giabao144/g-scores-frontend:latest
-    env_file: .env.dev
-    environment:
-      - NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL}
-    ports:
-      - "3000:3000"
-    depends_on:
-      - backend
 
 networks:
   postgres:

@@ -4,7 +4,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-.env*
+### env ###
+.env
+.env.local
 /src/main/resources/.env.properties
 
 ### STS ###
@@ -34,4 +36,3 @@ build/
 
 ### VS Code ###
 .vscode/
-

@@ -3,11 +3,13 @@ package com.gscores.backend.repository;
 import com.gscores.backend.dto.model.ResultDTO;
 import com.gscores.backend.entity.Result;
 import com.gscores.backend.entity.Student;
+import com.gscores.backend.entity.Subject;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface ResultRepository extends JpaRepository<Result, Long> {
@@ -26,4 +28,7 @@ public interface ResultRepository extends JpaRepository<Result, Long> {
     @Query("SELECT COUNT(r) FROM Result r WHERE r.score < 4 AND r.subject.name = :subjectName")
     Long countLowScores(@Param("subjectName") String subjectName);
 
+    Optional<Result> findByStudentAndSubject(Student student, Subject subject);
+
+    boolean existsByStudentAndSubject(Student student, Subject subject);
 }

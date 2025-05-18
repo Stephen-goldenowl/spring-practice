@@ -1,7 +1,7 @@
 package com.gscores.backend.dto.mapper;
 
-import com.gscores.backend.dto.model.StudentDTO;
-import com.gscores.backend.entity.Student;
+import com.gscores.backend.dto.model.SubjectDTO;
+import com.gscores.backend.entity.Subject;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -13,14 +13,11 @@ public class SubjectDTOMapper {
     private final ModelMapper modelMapper = new ModelMapper();
 
 
-    public StudentDTO mapToDTO(Student student) {
-        modelMapper
-                .typeMap(Student.class, StudentDTO.class)
-                .addMapping(src -> null, StudentDTO::setResults);
-        return modelMapper.map(student, StudentDTO.class);
+    public SubjectDTO mapToDTO(Subject subject) {
+        return modelMapper.map(subject, SubjectDTO.class);
     }
 
-    public Student mapToEntity(StudentDTO studentDTO) {
-        return modelMapper.map(studentDTO, Student.class);
+    public Subject mapToEntity(SubjectDTO studentDTO) {
+        return modelMapper.map(studentDTO, Subject.class);
     }
 }

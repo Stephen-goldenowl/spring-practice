@@ -31,11 +31,11 @@ public class ApplicationInitConfig {
                                         CSVSeederService csvSeederService) {
         return args -> {
             if (studentRepository.count() > 0) {
-                logger.info("✅ Database already contains data. Seeding skipped.");
+                logger.info("Database already contains data. Seeding skipped.");
                 return;
             }
 
-            logger.info("🚀 Database is empty. Seeding data...");
+            logger.info("Database is empty. Seeding data...");
 
             Map<String, Subject> subjectMap = new HashMap<>();
             String[] subjects = {
@@ -77,7 +77,7 @@ public class ApplicationInitConfig {
                         csvSeederService.saveBatch(students, results);
                         students.clear();
                         results.clear();
-                        logger.info("✅ Inserted " + count + " records...");
+                        logger.info("Inserted " + count + " records...");
                     }
                 }
 
@@ -86,7 +86,7 @@ public class ApplicationInitConfig {
                 }
 
             } catch (Exception e) {
-                System.err.println("❌ Seeding failed: " + e.getMessage());
+                System.err.println("Seeding failed: " + e.getMessage());
                 e.printStackTrace();
                 throw e;
             }
