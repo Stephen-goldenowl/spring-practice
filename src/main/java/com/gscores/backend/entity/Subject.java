@@ -23,6 +23,8 @@ public class Subject {
 
     private String name;
 
+    private Boolean isPrimary;
+
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
     Set<Result> results = new HashSet<>();
 
